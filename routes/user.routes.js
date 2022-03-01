@@ -73,6 +73,7 @@ router.post("/login", async (req, res) => {
     // Verificar se a senha do usuário pesquisado bate com a senha recebida pelo formulário
 
     if (await bcrypt.compare(password, user.passwordHash)) {
+      delete user._doc.passwordHash;
       // Gerando o JWT com os dados do usuário que acabou de logar
       const token = generateToken(user);
 
@@ -83,7 +84,7 @@ router.post("/login", async (req, res) => {
           _id: user._id,
           role: user.role,
         },
-        token,
+        token: token,
       });
     } else {
       // 401 Significa Unauthorized
@@ -115,5 +116,56 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
+
+router.patch(
+  "/profile/update",
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.currentUser;
+
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: loggedInUser._id },
+        { ...req.body },
+        { new: true, runValidators: true }
+      );
+
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: JSON.stringify(error) });
+    }
+  }
+);
+
+/* Soft delete */
+
+router.delete(
+  "/disable-account",
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res) => {
+    // o attachCurrentUser colocou o loggedInUser
+    try {
+      const loggedInUser = req.currentUser;
+
+      await UserModel.findOneAndUpdate(
+        {
+          _id: loggedInUser._id,
+        },
+        {
+          isDisable: true,
+          disableAt: Date.now(),
+        }
+      );
+
+      return res.status(200).json({ msg: "Deletado com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ msg: JSON.stringify(error) });
+    }
+  }
+);
 
 module.exports = router;
