@@ -18,8 +18,6 @@ const StaySchema = new Schema({
   }),
   amenities: [{ type: String, maxLength: 64 }],
   stayImage: { type: String },
-
-  stayReviews: { type: mongoose.Schema.Types.ObjectId, ref: "Reviews" },
 });
 
 const StayModel = model("Stay", StaySchema);

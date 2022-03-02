@@ -13,22 +13,7 @@ router.post(
   attachCurrentUser,
   async (req, res) => {
     try {
-      const loggedInUser = req.currentUser;
-
-      const createStay = await StayModel.create({
-        ...req.body,
-        userId: loggedInUser._id,
-      });
-
-      await UserModel.findOneAndUpdate(
-        {
-          _id: loggedInUser._id,
-        },
-        {
-          $push: { stays: createStay._id },
-        },
-        { new: true, runValidators: true }
-      );
+      const createStay = await StayModel.create({ ...req.body });
 
       return res.status(201).json(createStay);
     } catch (error) {
