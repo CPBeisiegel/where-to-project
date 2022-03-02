@@ -18,7 +18,6 @@ const UserSchema = new Schema({
     required: true,
     default: "USER",
   },
-  stays: [{ type: mongoose.Types.ObjectId, ref: "Stay" }],
   userPhone: { type: Number },
   userImage: { type: String },
   isDisable: { type: Boolean, required: true, default: false },
