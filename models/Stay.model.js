@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const StaySchema = new Schema({
+  /* stayId: {type: String}, */
   stayTitle: { type: String, required: true, trim: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   stayType: {
     type: String,
     enum: ["House", "Apartament", "Motorhome"],
@@ -18,6 +18,7 @@ const StaySchema = new Schema({
   }),
   amenities: [{ type: String, maxLength: 64 }],
   stayImage: { type: String },
+  userId: { type: Types.ObjectId, ref: "User" },
 });
 
 const StayModel = model("Stay", StaySchema);
