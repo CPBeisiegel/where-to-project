@@ -6,6 +6,7 @@ const attachCurrentUser = require("../middlewares/attachCurrentUser");
 const ReviewModel = require("../models/Review.model");
 const StayModel = require("../models/Stay.model");
 const UserModel = require("../models/User.model");
+const isOwner = require("../middlewares/isOwner");
 
 //CREATE
 router.post(
@@ -51,9 +52,10 @@ router.get(
 
 //UPDATE
 router.patch(
-  "/edit/:reviewId",
+  "/:stayId/edit-review/:reviewId",
   isAuthenticated,
   attachCurrentUser,
+  isOwner,
   async (req, res) => {
     try {
       const editReview = await ReviewModel.findOneAndUpdate(
@@ -64,6 +66,26 @@ router.patch(
       return res.status(201).json(editReview);
     } catch (error) {
       console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+);
+
+//DELETE
+router.delete(
+  "/:stayId/delete-review/:reviewId",
+  isAuthenticated,
+  attachCurrentUser,
+  isOwner,
+  async (req, res) => {
+    try {
+      const deletedReview = await ReviewModel.deleteOne({
+        _id: req.params.reviewId,
+      });
+      console.log(deletedReview);
+      return res.status(200).json({ msg: "Review deleted" });
+    } catch (error) {
+      console.error(error);
       return res.status(500).json(error);
     }
   }
