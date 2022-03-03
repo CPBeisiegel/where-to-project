@@ -50,6 +50,22 @@ router.get(
   }
 );
 
+router.get(
+  "/:reviewId",
+  isAuthenticated,
+  attachCurrentUser,
+  async (req, res) => {
+    try {
+      const review = await ReviewModel.findOne({ _id: req.params.reviewId });
+
+      return res.status(200).json(review);
+    } catch {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+);
+
 //UPDATE
 router.patch(
   "/:stayId/edit-review/:reviewId",
