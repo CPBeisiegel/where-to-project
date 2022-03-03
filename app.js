@@ -20,6 +20,9 @@ app.use("/api/stays", stayRouter);
 const reviewRouter = require("./routes/review.routes");
 app.use("/api/reviews", reviewRouter);
 
+const searchRouter = require("./routes/search.routes");
+app.use("/api/searchs", searchRouter);
+
 app.listen(Number(process.env.PORT), () =>
   console.log(`Server up and running at port ${process.env.PORT}`)
 );
