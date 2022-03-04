@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const uploadCloud = require("../config/cloudinary");
 
 const UserModel = require("../models/User.model");
 const generateToken = require("../config/jwt.config");
@@ -50,6 +51,14 @@ router.post("/signup", async (req, res) => {
     // O status 500 signifca Internal Server Error
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
+});
+
+router.post("/profile-picture", uploadCloud.single("picture"), (req, res) => {
+  if (!req.file) {
+    return res.status(500).json({ message: "Upload falhou" });
+  }
+
+  return res.status(201).json({ url: req.file.path });
 });
 
 // Login
