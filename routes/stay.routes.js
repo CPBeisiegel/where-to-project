@@ -46,6 +46,14 @@ router.get(
   }
 );
 
+router.post("/picture-stay", uploadCloud.single("picture"), (req, res) => {
+  if (!req.file) {
+    return res.status(500).json({ message: "Upload falhou" });
+  }
+
+  return res.status(201).json({ url: req.file.path });
+});
+
 router.get(
   "/user-stay/:id",
   isAuthenticated,
