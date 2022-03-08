@@ -11,7 +11,7 @@ const StaySchema = new Schema({
     required: true,
   },
   perNight: { type: Number },
-  description: { type: String, maxLength: 500 },
+  description: { type: String, maxLength: 500, required: true },
   stayDetails: new Schema({
     guests: { type: Number },
     bedroom: { type: Number },
