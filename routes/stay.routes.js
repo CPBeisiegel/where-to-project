@@ -46,7 +46,8 @@ router.get(
   }
 );
 
-router.post("/picture-stay", uploadCloud.single("picture"), (req, res) => {
+router.post("/pictures", uploadCloud.single("picture"), (req, res) => {
+  console.log(req.file);
   if (!req.file) {
     return res.status(500).json({ message: "Upload falhou" });
   }

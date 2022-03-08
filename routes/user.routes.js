@@ -107,7 +107,7 @@ router.post("/login", async (req, res) => {
 
 // cRud (READ) - HTTP GET
 // Buscar dados do usuário
-router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
+router.get("/profile/:id", isAuthenticated, attachCurrentUser, (req, res) => {
   console.log(req.headers);
 
   try {
@@ -127,7 +127,7 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 });
 
 router.patch(
-  "/profile/update",
+  "/profile/update/:id",
   isAuthenticated,
   attachCurrentUser,
   async (req, res) => {
