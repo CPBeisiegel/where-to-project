@@ -1,18 +1,19 @@
 const router = require("express").Router();
-const uploadCloud = require("../config/cloudinary");
+const uploadCloud = require("../config/cloudinary.config");
+
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
 const StayModel = require("../models/Stay.model");
 const UserModel = require("../models/User.model");
 const ReviewModel = require("../models/Review.model");
-const isAdmin = require("../middlewares/isAdmin");
+const isStayOwner = require("../middlewares/isStayOwner");
 
 router.post(
   "/create-stay",
   isAuthenticated,
   attachCurrentUser,
-  isAdmin,
+  isStayOwner,
   async (req, res) => {
     try {
       const loggedInUser = req.currentUser;
@@ -74,7 +75,7 @@ router.patch(
   "/user-stay/update/:id",
   isAuthenticated,
   attachCurrentUser,
-  isAdmin,
+  isStayOwner,
   async (req, res) => {
     try {
       const stayUpdated = await StayModel.findOneAndUpdate(
@@ -99,7 +100,7 @@ router.delete(
   "/user-stay/delete/:id",
   isAuthenticated,
   attachCurrentUser,
-  isAdmin,
+  isStayOwner,
   async (req, res) => {
     try {
       const removedStay = await StayModel.deleteOne({ _id: req.params.id });

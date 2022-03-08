@@ -1,22 +1,19 @@
-const ReviewModel = require("../models/Review.model");
 const StayModel = require("../models/Stay.model");
 
 module.exports = async (req, res, next) => {
   try {
     const loggedInUser = req.currentUser;
 
-    const review = await ReviewModel.findOne({ _id: req.params.reviewId });
+    const stay = await StayModel.findOne({ userId: loggedInUser._id });
 
     const userId = loggedInUser._id;
-    const ownerId = review.userId;
-
+    const stayId = stay._id;
     console.log(typeof userId);
-    console.log(typeof ownerId);
 
-    if (String(userId) !== String(ownerId)) {
+    if (!loggedInUser.role === "ADMIN") {
       return res
         .status(401)
-        .json({ msg: "You do not have access to this review." });
+        .json({ msg: "You do not have permission to this." });
     }
 
     return next();
