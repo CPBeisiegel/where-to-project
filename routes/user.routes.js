@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-const uploadCloud = require("../config/cloudinary");
+const uploadCloud = require("../config/cloudinary.config");
 
 const UserModel = require("../models/User.model");
 const generateToken = require("../config/jwt.config");
