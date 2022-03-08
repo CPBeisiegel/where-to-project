@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const uploadCloud = require("../config/cloudinary.config");
-
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
