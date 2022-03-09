@@ -53,7 +53,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/profile-picture", uploadCloud.single("picture"), (req, res) => {
+router.post("/pictures", uploadCloud.single("picture"), (req, res) => {
   if (!req.file) {
     return res.status(500).json({ message: "Upload falhou" });
   }
