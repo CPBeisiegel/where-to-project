@@ -12,7 +12,7 @@ router.post(
   "/create-stay",
   isAuthenticated,
   attachCurrentUser,
-  isStayOwner,
+
   async (req, res) => {
     try {
       const loggedInUser = req.currentUser;
