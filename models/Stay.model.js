@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema, model, Types } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const StaySchema = new Schema({
   stayTitle: { type: String, required: true, trim: true },
@@ -17,9 +17,9 @@ const StaySchema = new Schema({
     bedroom: { type: Number },
     bathroom: { type: Number },
   }),
-  amenities: [{ type: String, maxLength: 64 }],
+  amenities: [{ type: String, maxLength: 200 }],
   stayImage: { type: String },
-  userId: { type: Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 const StayModel = model("Stay", StaySchema);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { Schema, model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const UserSchema = new Schema({
   userName: { type: String, required: true, trim: true },
@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   },
   userPhone: { type: Number },
   userImage: { type: String },
+  stays: [{ type: Types.ObjectId, ref: "Stay" }],
   isDisable: { type: Boolean, required: true, default: false },
   disableAt: { type: Date },
 });
