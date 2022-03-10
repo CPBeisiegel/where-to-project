@@ -35,21 +35,16 @@ router.post(
   }
 );
 
-router.get(
-  "/list-stays",
-  isAuthenticated,
-  attachCurrentUser,
-  async (req, res) => {
-    try {
-      const stays = await StayModel.find().populate("user");
+router.get("/list-stays", async (req, res) => {
+  try {
+    const stays = await StayModel.find().populate("user");
 
-      return res.status(200).json(stays);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json(error);
-    }
+    return res.status(200).json(stays);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
   }
-);
+});
 
 router.post("/pictures", uploadCloud.single("picture"), (req, res) => {
   console.log(req.file);
@@ -78,22 +73,17 @@ router.get(
   }
 );
 /* Esta com problemas */
-router.get(
-  "/user-stay/my-stays",
-  isAuthenticated,
-  attachCurrentUser,
-  async (req, res) => {
-    try {
-      const loggedInUser = req.currentUser;
-      const objIdFromUser = mongoose.Types.ObjectId(loggedInUser._id);
-      const myStays = await StayModel.find({ userId: objIdFromUser });
-      return res.status(200).json(myStays);
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json(error);
-    }
+router.get("/myStays", isAuthenticated, attachCurrentUser, async (req, res) => {
+  try {
+    const loggedInUser = req.currentUser;
+
+    const myStays = await StayModel.find({ userId: loggedInUser._id });
+    return res.status(200).json(myStays);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
   }
-);
+});
 
 router.patch(
   "/user-stay/update/:id",
