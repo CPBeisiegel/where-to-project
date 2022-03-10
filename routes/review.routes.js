@@ -40,7 +40,7 @@ router.get(
     try {
       const allReviews = await ReviewModel.find({
         stayReview: req.params.stayId,
-      });
+      }).populate("userId", { passwordHash: 0 });
       console.log(allReviews);
       return res.status(201).json(allReviews);
     } catch (error) {
