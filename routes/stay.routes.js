@@ -62,7 +62,7 @@ router.get(
   async (req, res) => {
     try {
       const userStays = await StayModel.find({ _id: req.params.id }).populate(
-        "user"
+        "userId"
       );
 
       return res.status(200).json(userStays);
